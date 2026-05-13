@@ -67,13 +67,11 @@
 			"PluginModules": [
 				"ext.simpleMermaid.visualEditor"
 			]
-		},
-		"Parsoid": {
-			"Modules": [
-				"SimpleMermaid\\MermaidParsoidModule"
-			]
 		}
 	},
+	"ParsoidModules": [
+		"SimpleMermaid\\MermaidParsoidModule"
+	],
 	"ResourceFileModulePaths": {
 		"localBasePath": "",
 		"remoteExtPath": "SimpleMermaid"
