@@ -44,6 +44,34 @@
 				"desktop",
 				"mobile"
 			]
+		},
+		"ext.simpleMermaid.visualEditor": {
+			"scripts": [
+				"resources/ve/ve.dm.MWMermaidNode.js",
+				"resources/ve/ve.ce.MWMermaidNode.js",
+				"resources/ve/ve.ui.MWMermaidInspector.js"
+			],
+			"dependencies": [
+				"ext.visualEditor.mwcore",
+				"ext.visualEditor.mwextensions",
+				"ext.simpleMermaid"
+			],
+			"targets": [
+				"desktop",
+				"mobile"
+			]
+		}
+	},
+	"attributes": {
+		"VisualEditor": {
+			"PluginModules": [
+				"ext.simpleMermaid.visualEditor"
+			]
+		},
+		"Parsoid": {
+			"Modules": [
+				"SimpleMermaid\\MermaidParsoidModule"
+			]
 		}
 	},
 	"ResourceFileModulePaths": {

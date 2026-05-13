@@ -656,4 +656,27 @@
 	}
 
 	mw.hook( 'wikipage.content' ).add( render );
+
+	mw.libs = mw.libs || {};
+	mw.libs.simpleMermaid = {
+		load: load,
+		render: function ( id, src ) {
+			return load().then( function ( m ) {
+				var theme = isDark() ? 'dark' : 'default';
+
+				if ( initTheme !== theme ) {
+					m.initialize( {
+						startOnLoad: false,
+						securityLevel: 'strict',
+						theme: theme
+					} );
+					initTheme = theme;
+				}
+
+				return m.render( id, norm( src ) ).then( function ( out ) {
+					return out.svg;
+				} );
+			} );
+		}
+	};
 }() );
