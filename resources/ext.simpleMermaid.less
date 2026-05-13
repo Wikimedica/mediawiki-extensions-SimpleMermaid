@@ -20,6 +20,12 @@
 	border: @border-width-base @border-style-base var( --border-color-subtle );
 	border-radius: 14px;
 
+	&:not([data-simple-mermaid-mounted="1"]) {
+		color: transparent;
+		min-height: 2em;
+		user-select: none;
+	}
+
 	&[data-simple-mermaid-mounted="1"],
 	&[data-mermaid-state="rendered"],
 	&[data-mermaid-state="loading"],

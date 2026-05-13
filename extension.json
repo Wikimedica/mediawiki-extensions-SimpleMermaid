@@ -49,7 +49,8 @@
 			"scripts": [
 				"resources/ve/ve.dm.MWMermaidNode.js",
 				"resources/ve/ve.ce.MWMermaidNode.js",
-				"resources/ve/ve.ui.MWMermaidInspector.js"
+				"resources/ve/ve.ui.MWMermaidInspector.js",
+				"resources/ve/ve.simpleMermaid.surface.js"
 			],
 			"dependencies": [
 				"ext.visualEditor.mwcore",

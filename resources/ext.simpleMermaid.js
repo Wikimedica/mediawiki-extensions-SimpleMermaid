@@ -677,6 +677,9 @@
 					return out.svg;
 				} );
 			} );
+		},
+		processContent: function ( $content ) {
+			render( $content );
 		}
 	};
 }() );
