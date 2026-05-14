@@ -18,7 +18,7 @@ ve.ce.MWMermaidNode.prototype.generateContents = function () {
 		deferred.resolve(
 			$( '<div>' )
 				.addClass( 'simple-mermaid-empty' )
-				.text( '(empty mermaid block)' )
+				.text( mw.msg( 'simplemermaid-ve-empty' ) )
 				.toArray()
 		);
 		return deferred.promise();

@@ -15,8 +15,8 @@
 		minus: icons.cdxIconSubtract
 	};
 	var COPY = {
-		idle: { title: 'Copy', icon: I.copy },
-		done: { title: 'Copied', icon: I.check }
+		idle: { msg: 'simplemermaid-button-copy', icon: I.copy },
+		done: { msg: 'simplemermaid-button-copied', icon: I.check }
 	};
 	var PAN = 80;
 	var ZOOM = 0.2;
@@ -134,7 +134,7 @@
 
 	function setCopy( s, cfg ) {
 		s.copyBtn.classList.toggle( 'is-copied', cfg === COPY.done );
-		setBtn( s.copyBtn, cfg.title, cfg.icon );
+		setBtn( s.copyBtn, mw.msg( cfg.msg ), cfg.icon );
 	}
 
 	function list( $content ) {
@@ -540,8 +540,8 @@
 			fs: false
 		};
 		var actions = el( 'div', 'simple-mermaid-actions' );
-		var fsBtn = btn( 'Toggle fullscreen', I.fs, 'simple-mermaid-top-btn' );
-		var copyBtn = btn( COPY.idle.title, COPY.idle.icon, 'simple-mermaid-top-btn' );
+		var fsBtn = btn( mw.msg( 'simplemermaid-button-fullscreen' ), I.fs, 'simple-mermaid-top-btn' );
+		var copyBtn = btn( mw.msg( COPY.idle.msg ), COPY.idle.icon, 'simple-mermaid-top-btn' );
 		var ctrls = el( 'div', 'simple-mermaid-controls' );
 		var pad = el( 'div', 'simple-mermaid-pad' );
 		var zoomCol = el( 'div', 'simple-mermaid-zoom' );
@@ -551,14 +551,14 @@
 		var surf = el( 'div', 'simple-mermaid-surface' );
 		var canvas = el( 'div', 'simple-mermaid-canvas' );
 		var err = el( 'div', 'simple-mermaid-error' );
-		var exitBtn = btn( 'Close fullscreen', I.exit, 'simple-mermaid-ctl' );
-		var plusBtn = btn( 'Zoom in', I.plus, 'simple-mermaid-ctl' );
-		var minusBtn = btn( 'Zoom out', I.minus, 'simple-mermaid-ctl' );
-		var upBtn = btn( 'Pan up', I.up, 'simple-mermaid-ctl simple-mermaid-pad__up' );
-		var leftBtn = btn( 'Pan left', I.left, 'simple-mermaid-ctl simple-mermaid-pad__left' );
-		var resetBtn = btn( 'Reset view', I.reset, 'simple-mermaid-ctl simple-mermaid-pad__reset' );
-		var rightBtn = btn( 'Pan right', I.right, 'simple-mermaid-ctl simple-mermaid-pad__right' );
-		var downBtn = btn( 'Pan down', I.down, 'simple-mermaid-ctl simple-mermaid-pad__down' );
+		var exitBtn = btn( mw.msg( 'simplemermaid-button-fullscreen-exit' ), I.exit, 'simple-mermaid-ctl' );
+		var plusBtn = btn( mw.msg( 'simplemermaid-button-zoom-in' ), I.plus, 'simple-mermaid-ctl' );
+		var minusBtn = btn( mw.msg( 'simplemermaid-button-zoom-out' ), I.minus, 'simple-mermaid-ctl' );
+		var upBtn = btn( mw.msg( 'simplemermaid-button-pan-up' ), I.up, 'simple-mermaid-ctl simple-mermaid-pad__up' );
+		var leftBtn = btn( mw.msg( 'simplemermaid-button-pan-left' ), I.left, 'simple-mermaid-ctl simple-mermaid-pad__left' );
+		var resetBtn = btn( mw.msg( 'simplemermaid-button-reset' ), I.reset, 'simple-mermaid-ctl simple-mermaid-pad__reset' );
+		var rightBtn = btn( mw.msg( 'simplemermaid-button-pan-right' ), I.right, 'simple-mermaid-ctl simple-mermaid-pad__right' );
+		var downBtn = btn( mw.msg( 'simplemermaid-button-pan-down' ), I.down, 'simple-mermaid-ctl simple-mermaid-pad__down' );
 
 		node.__simpleMermaidState = s;
 		node.classList.remove( 'mermaid' );

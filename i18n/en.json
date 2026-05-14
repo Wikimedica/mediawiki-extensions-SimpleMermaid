@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": []
+	},
+	"simplemermaid-button-fullscreen": "Toggle fullscreen",
+	"simplemermaid-button-fullscreen-exit": "Close fullscreen",
+	"simplemermaid-button-copy": "Copy",
+	"simplemermaid-button-copied": "Copied",
+	"simplemermaid-button-zoom-in": "Zoom in",
+	"simplemermaid-button-zoom-out": "Zoom out",
+	"simplemermaid-button-pan-up": "Pan up",
+	"simplemermaid-button-pan-down": "Pan down",
+	"simplemermaid-button-pan-left": "Pan left",
+	"simplemermaid-button-pan-right": "Pan right",
+	"simplemermaid-button-reset": "Reset view",
+	"simplemermaid-ve-empty": "(empty mermaid block)",
+	"simplemermaid-ve-inspector-title": "Mermaid diagram"
+}

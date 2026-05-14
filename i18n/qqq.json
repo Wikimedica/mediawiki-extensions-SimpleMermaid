@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": []
+	},
+	"simplemermaid-button-fullscreen": "Tooltip/aria-label for the button that enters fullscreen view of a mermaid diagram.",
+	"simplemermaid-button-fullscreen-exit": "Tooltip/aria-label for the button that exits fullscreen view of a mermaid diagram.",
+	"simplemermaid-button-copy": "Tooltip/aria-label for the button that copies the mermaid source code to the clipboard.",
+	"simplemermaid-button-copied": "Transient tooltip on the copy button right after a successful clipboard copy. {{Identical|Copied}}",
+	"simplemermaid-button-zoom-in": "Tooltip/aria-label for the zoom-in button shown in fullscreen view.",
+	"simplemermaid-button-zoom-out": "Tooltip/aria-label for the zoom-out button shown in fullscreen view.",
+	"simplemermaid-button-pan-up": "Tooltip/aria-label for the pan-up button on the pan pad in fullscreen view.",
+	"simplemermaid-button-pan-down": "Tooltip/aria-label for the pan-down button on the pan pad in fullscreen view.",
+	"simplemermaid-button-pan-left": "Tooltip/aria-label for the pan-left button on the pan pad in fullscreen view.",
+	"simplemermaid-button-pan-right": "Tooltip/aria-label for the pan-right button on the pan pad in fullscreen view.",
+	"simplemermaid-button-reset": "Tooltip/aria-label for the button that resets the view (center + zoom 100%) in fullscreen.",
+	"simplemermaid-ve-empty": "Placeholder shown inside the VisualEditor preview when a <code>&lt;mermaid&gt;</code> block has no source text.",
+	"simplemermaid-ve-inspector-title": "Title of the VisualEditor inspector dialog used to edit a mermaid diagram."
+}

@@ -5,7 +5,7 @@ ve.ui.MWMermaidInspector = function VeUiMWMermaidInspector() {
 OO.inheritClass( ve.ui.MWMermaidInspector, ve.ui.MWExtensionInspector );
 
 ve.ui.MWMermaidInspector.static.name = 'mermaid';
-ve.ui.MWMermaidInspector.static.title = 'Mermaid diagram';
+ve.ui.MWMermaidInspector.static.title = OO.ui.deferMsg( 'simplemermaid-ve-inspector-title' );
 ve.ui.MWMermaidInspector.static.modelClasses = [ ve.dm.MWMermaidNode ];
 ve.ui.MWMermaidInspector.static.dir = 'ltr';
 ve.ui.MWMermaidInspector.static.size = 'larger';

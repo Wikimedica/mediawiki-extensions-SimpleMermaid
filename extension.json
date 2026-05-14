@@ -11,6 +11,11 @@
 	"AutoloadNamespaces": {
 		"SimpleMermaid\\": "src/"
 	},
+	"MessagesDirs": {
+		"SimpleMermaid": [
+			"i18n"
+		]
+	},
 	"Hooks": {
 		"ParserFirstCallInit": "SimpleMermaid\\Hooks::onParserFirstCallInit",
 		"OutputPageParserOutput": "SimpleMermaid\\Hooks::onOutputPageParserOutput"
@@ -40,6 +45,19 @@
 			"styles": [
 				"resources/ext.simpleMermaid.less"
 			],
+			"messages": [
+				"simplemermaid-button-fullscreen",
+				"simplemermaid-button-fullscreen-exit",
+				"simplemermaid-button-copy",
+				"simplemermaid-button-copied",
+				"simplemermaid-button-zoom-in",
+				"simplemermaid-button-zoom-out",
+				"simplemermaid-button-pan-up",
+				"simplemermaid-button-pan-down",
+				"simplemermaid-button-pan-left",
+				"simplemermaid-button-pan-right",
+				"simplemermaid-button-reset"
+			],
 			"targets": [
 				"desktop",
 				"mobile"
@@ -51,6 +69,10 @@
 				"resources/ve/ve.ce.MWMermaidNode.js",
 				"resources/ve/ve.ui.MWMermaidInspector.js",
 				"resources/ve/ve.simpleMermaid.surface.js"
+			],
+			"messages": [
+				"simplemermaid-ve-empty",
+				"simplemermaid-ve-inspector-title"
 			],
 			"dependencies": [
 				"ext.visualEditor.mwcore",

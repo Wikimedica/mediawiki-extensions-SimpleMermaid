@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": []
+	},
+	"simplemermaid-button-fullscreen": "Plein écran",
+	"simplemermaid-button-fullscreen-exit": "Quitter le plein écran",
+	"simplemermaid-button-copy": "Copier",
+	"simplemermaid-button-copied": "Copié",
+	"simplemermaid-button-zoom-in": "Zoom avant",
+	"simplemermaid-button-zoom-out": "Zoom arrière",
+	"simplemermaid-button-pan-up": "Déplacer vers le haut",
+	"simplemermaid-button-pan-down": "Déplacer vers le bas",
+	"simplemermaid-button-pan-left": "Déplacer vers la gauche",
+	"simplemermaid-button-pan-right": "Déplacer vers la droite",
+	"simplemermaid-button-reset": "Réinitialiser la vue",
+	"simplemermaid-ve-empty": "(bloc mermaid vide)",
+	"simplemermaid-ve-inspector-title": "Diagramme Mermaid"
+}
