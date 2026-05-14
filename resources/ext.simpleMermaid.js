@@ -2,7 +2,7 @@
 	var icons = require( './icons.json' );
 	var URL = 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
 	var I = {
-		fs: icons.cdxIconFullScreen,
+		fs: icons.cdxIconFullscreen,
 		copy: icons.cdxIconCopy,
 		check: icons.cdxIconCheck,
 		exit: icons.cdxIconExitFullscreen,
