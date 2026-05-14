@@ -2,6 +2,7 @@
 
 namespace SimpleMermaid;
 
+use Wikimedia\Parsoid\Core\ContentMetadataCollectorStringSets as CMCSS;
 use Wikimedia\Parsoid\DOM\DocumentFragment;
 use Wikimedia\Parsoid\Ext\ExtensionTagHandler;
 use Wikimedia\Parsoid\Ext\ParsoidExtensionAPI;
@@ -13,6 +14,8 @@ class MermaidParsoidExtension extends ExtensionTagHandler
 		string $src,
 		array $extArgs
 	): DocumentFragment {
+		$extApi->getMetadata()->appendOutputStrings(CMCSS::MODULE, ['ext.simpleMermaid']);
+
 		$classes = ['mermaid', 'simple-mermaid'];
 		$align = null;
 

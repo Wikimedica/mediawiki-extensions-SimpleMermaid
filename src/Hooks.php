@@ -11,6 +11,8 @@ use PPFrame;
 class Hooks
 {
     private const DATA_KEY = 'simple-mermaid';
+    private const INLINE_STYLE_TAG = 'ext-simple-mermaid-flash-prevent';
+    private const INLINE_STYLE = '<style>.simple-mermaid:not([data-simple-mermaid-mounted="1"]){color:transparent;min-height:2em;user-select:none}</style>';
 
     public static function onParserFirstCallInit(Parser $parser)
     {
@@ -36,7 +38,9 @@ class Hooks
             return '';
         }
 
-        $parser->getOutput()->setExtensionData(self::DATA_KEY, true);
+        $parserOutput = $parser->getOutput();
+        $parserOutput->setExtensionData(self::DATA_KEY, true);
+        $parserOutput->addHeadItem(self::INLINE_STYLE, self::INLINE_STYLE_TAG);
 
         $attributes = [
             'class' => self::buildClassName($args),
