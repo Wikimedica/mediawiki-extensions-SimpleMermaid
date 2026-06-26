@@ -124,7 +124,7 @@
 	}
 
 	&-scroll {
-		overflow-x: auto;
+		overflow-x: hidden;
 		overflow-y: hidden;
 		position: relative;
 		-webkit-overflow-scrolling: touch;
@@ -132,8 +132,9 @@
 
 	&-stage {
 		display: flex;
-		width: max-content;
-		min-width: 100%;
+		width: 100%;
+		min-width: 0;
+		max-width: 100%;
 		position: relative;
 		padding: 1rem;
 		box-sizing: border-box;
@@ -141,19 +142,24 @@
 
 	&-canvas,
 	&-surface {
-		flex: none;
+		flex: 1 1 auto;
+		min-width: 0;
+		max-width: 100%;
 		position: relative;
 	}
 
 	&-canvas {
-		max-width: none;
+		max-width: 100%;
 
 		svg {
 			display: block;
-			max-width: none;
-			height: auto;
+			width: 100% !important;
+			max-width: 100% !important;
+			height: auto !important;
 			transform-origin: top left;
+			transform: none !important;
 		}
+
 	}
 
 	&-surface {
@@ -262,6 +268,19 @@
 				position: absolute;
 				top: 0;
 				left: 0;
+				flex: none;
+				max-width: none;
+			}
+
+			&-canvas {
+				flex: none;
+				max-width: none;
+			}
+
+			&-canvas svg {
+				width: auto !important;
+				max-width: none !important;
+				height: auto !important;
 			}
 
 			&-controls {

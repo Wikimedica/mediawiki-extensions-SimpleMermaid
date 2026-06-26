@@ -151,6 +151,49 @@
 		return src.replace( /^(?:\r?\n)+/, '' );
 	}
 
+	// Mermaid 11's flowchart renderer caps each visual line of a node
+	// label at ~200px wide before clipping it (see addHtmlSpan in
+	// chunks/.../chunk-O5CBEL6O.mjs). Labels longer than that get
+	// truncated unless the wikitext breaks them with <br/> first. We
+	// pre-process the source: any quoted label is split on existing
+	// <br/> markers (author intent is preserved), then each segment
+	// longer than LABEL_MAX_CHARS is broken at word boundaries with
+	// extra <br/> so every visual line fits under mermaid's cap.
+	var LABEL_MAX_CHARS = 25;
+
+	function breakLine( line, maxChars ) {
+		if ( line.length <= maxChars ) {
+			return line;
+		}
+		var words = line.split( /\s+/ );
+		var out = [];
+		var current = '';
+		words.forEach( function ( word ) {
+			if ( !current ) {
+				current = word;
+			} else if ( ( current + ' ' + word ).length <= maxChars ) {
+				current += ' ' + word;
+			} else {
+				out.push( current );
+				current = word;
+			}
+		} );
+		if ( current ) {
+			out.push( current );
+		}
+		return out.join( '<br/>' );
+	}
+
+	function wrapLabels( src ) {
+		return src.replace( /"([^"]*)"/g, function ( _, label ) {
+			var segments = label.split( /<br\s*\/?>/i );
+			var wrapped = segments.map( function ( seg ) {
+				return breakLine( seg.trim(), LABEL_MAX_CHARS );
+			} );
+			return '"' + wrapped.join( '<br/>' ) + '"';
+		} );
+	}
+
 	function isDark() {
 		var html = document.documentElement;
 
@@ -162,20 +205,40 @@
 	}
 
 	function layout( s ) {
-		var w = Math.max( 120, s.w * s.scale );
-		var h = Math.max( 80, s.h * s.scale );
+		var inFs = document.fullscreenElement === s.root;
+		var renderedW = s.w * s.scale;
+		var renderedH = s.h * s.scale;
 
-		s.surf.style.width = w + 'px';
-		s.surf.style.height = h + 'px';
-		s.surf.style.transform = 'translate(' + s.x + 'px, ' + s.y + 'px)';
-		s.canvas.style.width = s.w + 'px';
-		s.canvas.style.height = s.h + 'px';
+		if ( inFs ) {
+			var w = Math.max( 120, renderedW );
+			var h = Math.max( 80, renderedH );
+			s.surf.style.width = w + 'px';
+			s.surf.style.height = h + 'px';
+			s.surf.style.transform = 'translate(' + s.x + 'px, ' + s.y + 'px)';
+			s.canvas.style.width = s.w + 'px';
+			s.canvas.style.height = s.h + 'px';
 
-		if ( s.svg ) {
-			s.svg.style.width = s.w + 'px';
-			s.svg.style.height = s.h + 'px';
-			s.svg.style.transform = 'scale(' + s.scale + ')';
-			s.svg.style.transformOrigin = 'top left';
+			if ( s.svg ) {
+				s.svg.style.setProperty( 'width', s.w + 'px', 'important' );
+				s.svg.style.setProperty( 'height', s.h + 'px', 'important' );
+				s.svg.style.setProperty( 'max-width', 'none', 'important' );
+				s.svg.style.setProperty( 'transform', 'scale(' + s.scale + ')', 'important' );
+				s.svg.style.transformOrigin = 'top left';
+			}
+		} else {
+			s.surf.style.width = '';
+			s.surf.style.height = '';
+			s.surf.style.transform = '';
+			s.canvas.style.width = '';
+			s.canvas.style.height = '';
+
+			if ( s.svg ) {
+				s.svg.style.width = '';
+				s.svg.style.height = '';
+				s.svg.style.transform = '';
+				s.svg.style.transformOrigin = '';
+				s.svg.style.maxWidth = '';
+			}
 		}
 	}
 
@@ -403,7 +466,7 @@
 			initTheme = theme;
 		}
 
-		return m.render( id, s.src ).then( function ( out ) {
+		return m.render( id, wrapLabels( s.src ) ).then( function ( out ) {
 			var box;
 
 			if ( token !== s.token ) {
@@ -673,7 +736,7 @@
 					initTheme = theme;
 				}
 
-				return m.render( id, norm( src ) ).then( function ( out ) {
+				return m.render( id, wrapLabels( norm( src ) ) ).then( function ( out ) {
 					return out.svg;
 				} );
 			} );
