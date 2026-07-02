@@ -185,13 +185,31 @@
 	}
 
 	function wrapLabels( src ) {
-		return src.replace( /"([^"]*)"/g, function ( _, label ) {
+		return src.replace( /"([^"\r\n]*)"/g, function ( _, label ) {
 			var segments = label.split( /<br\s*\/?>/i );
 			var wrapped = segments.map( function ( seg ) {
 				return breakLine( seg.trim(), LABEL_MAX_CHARS );
 			} );
 			return '"' + wrapped.join( '<br/>' ) + '"';
 		} );
+	}
+
+	// Mermaid 11 only accepts HTML (e.g. <br>) inside a *quoted* string.
+	// An unquoted subgraph title such as `subgraph <br>Foo` is a parse
+	// error (got 'TAGSTART'), so wrap any bare title that contains a tag
+	// in quotes. The `subgraph id [text]` bracket form and already-quoted
+	// titles start with '[' or '"' and are left untouched.
+	function quoteSubgraphTitles( src ) {
+		return src.replace(
+			/^([ \t]*subgraph[ \t]+)([^"[\n]*<[^\n]*?)[ \t]*$/gm,
+			function ( _, head, title ) {
+				return head + '"' + title.replace( /"/g, '' ) + '"';
+			}
+		);
+	}
+
+	function prepare( src ) {
+		return wrapLabels( quoteSubgraphTitles( src ) );
 	}
 
 	function isDark() {
@@ -466,7 +484,7 @@
 			initTheme = theme;
 		}
 
-		return m.render( id, wrapLabels( s.src ) ).then( function ( out ) {
+		return m.render( id, prepare( s.src ) ).then( function ( out ) {
 			var box;
 
 			if ( token !== s.token ) {
@@ -736,7 +754,7 @@
 					initTheme = theme;
 				}
 
-				return m.render( id, wrapLabels( norm( src ) ) ).then( function ( out ) {
+				return m.render( id, prepare( norm( src ) ) ).then( function ( out ) {
 					return out.svg;
 				} );
 			} );
