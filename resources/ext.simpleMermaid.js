@@ -159,7 +159,9 @@
 	// <br/> markers (author intent is preserved), then each segment
 	// longer than LABEL_MAX_CHARS is broken at word boundaries with
 	// extra <br/> so every visual line fits under mermaid's cap.
-	var LABEL_MAX_CHARS = 25;
+	// The cap is ~25 chars of average text; we stay a couple below it so
+	// wider glyphs (bold, accents) still clear the 200px limit.
+	var LABEL_MAX_CHARS = 22;
 
 	function breakLine( line, maxChars ) {
 		if ( line.length <= maxChars ) {
@@ -184,8 +186,15 @@
 		return out.join( '<br/>' );
 	}
 
+	// The label class is [^"] (newlines allowed): the Flowchart module emits
+	// multi-line labels as `text<br>\n…`, so a quoted label can legitimately
+	// span source lines. Excluding \n here would leave those labels unmatched
+	// and unwrapped, so they'd render as one over-long, clipped line. Quotes
+	// are always balanced (the module escapes any quote inside a label and
+	// quoteSubgraphTitles quotes bare titles), so [^"] never spans two labels.
+	// Each segment's stray newline is neutralised by seg.trim() + \s+ split.
 	function wrapLabels( src ) {
-		return src.replace( /"([^"\r\n]*)"/g, function ( _, label ) {
+		return src.replace( /"([^"]*)"/g, function ( _, label ) {
 			var segments = label.split( /<br\s*\/?>/i );
 			var wrapped = segments.map( function ( seg ) {
 				return breakLine( seg.trim(), LABEL_MAX_CHARS );
