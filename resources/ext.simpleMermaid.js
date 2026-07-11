@@ -241,6 +241,7 @@
 			var h = Math.max( 80, renderedH );
 			s.surf.style.width = w + 'px';
 			s.surf.style.height = h + 'px';
+			s.surf.style.maxWidth = 'none';
 			s.surf.style.transform = 'translate(' + s.x + 'px, ' + s.y + 'px)';
 			s.canvas.style.width = s.w + 'px';
 			s.canvas.style.height = s.h + 'px';
@@ -256,6 +257,12 @@
 			s.surf.style.width = '';
 			s.surf.style.height = '';
 			s.surf.style.transform = '';
+			// Fit to column width but never upscale: cap the surface at the
+			// diagram's natural width so a diagram narrower than the column
+			// stays at its intrinsic size instead of being stretched (and
+			// blurred/zoomed) up to 100%. Wider diagrams still shrink because
+			// the column itself constrains them below this cap.
+			s.surf.style.maxWidth = s.w + 'px';
 			s.canvas.style.width = '';
 			s.canvas.style.height = '';
 
