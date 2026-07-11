@@ -34,8 +34,8 @@
 		font-family: inherit;
 	}
 
-	&[data-align="center"] &-stage {
-		justify-content: center;
+	&[data-align="left"] &-stage {
+		justify-content: flex-start;
 	}
 
 	&[data-align="right"] &-stage {
@@ -132,6 +132,10 @@
 
 	&-stage {
 		display: flex;
+		// Center diagrams in the column by default. Since the surface is
+		// capped at the diagram's natural width, narrower diagrams leave
+		// slack on both sides; center it. data-align left/right overrides.
+		justify-content: center;
 		width: 100%;
 		min-width: 0;
 		max-width: 100%;
