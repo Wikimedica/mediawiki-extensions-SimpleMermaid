@@ -159,9 +159,15 @@
 	// <br/> markers (author intent is preserved), then each segment
 	// longer than LABEL_MAX_CHARS is broken at word boundaries with
 	// extra <br/> so every visual line fits under mermaid's cap.
-	// The cap is ~25 chars of average text; we stay a couple below it so
-	// wider glyphs (bold, accents) still clear the 200px limit.
-	var LABEL_MAX_CHARS = 22;
+	// initMermaid() raises flowchart.wrappingWidth to WRAP_WIDTH_PX, and at
+	// the page's 14px font that fits ~53 chars of average text; we stay a
+	// few below it so wider glyphs (bold, accents) still clear the limit.
+	// wrappingWidth only reaches NODE labels: edge labels go through
+	// createText() with its hardcoded 200px default width, so their lines
+	// must be broken under that cap (~26 chars at 14px) or they clip.
+	var WRAP_WIDTH_PX = 400;
+	var LABEL_MAX_CHARS = 48;
+	var EDGE_LABEL_MAX_CHARS = 24;
 
 	function breakLine( line, maxChars ) {
 		if ( line.length <= maxChars ) {
@@ -193,11 +199,22 @@
 	// are always balanced (the module escapes any quote inside a label and
 	// quoteSubgraphTitles quotes bare titles), so [^"] never spans two labels.
 	// Each segment's stray newline is neutralised by seg.trim() + \s+ split.
+	// A quoted string sits in edge-label position when the last non-blank
+	// characters before it belong to a link (`-- "t" -->`, `-. "t" .->`,
+	// `== "t" ==>`) or a pipe label (`-->|"t"|`). Node labels are instead
+	// preceded by a shape opener such as `(`, `[` or `{`.
+	function isEdgeLabel( src, offset ) {
+		var head = src.slice( 0, offset ).replace( /[ \t]+$/, '' );
+
+		return /(?:--|-\.|==|\|)$/.test( head );
+	}
+
 	function wrapLabels( src ) {
-		return src.replace( /"([^"]*)"/g, function ( _, label ) {
+		return src.replace( /"([^"]*)"/g, function ( _, label, offset ) {
+			var maxChars = isEdgeLabel( src, offset ) ? EDGE_LABEL_MAX_CHARS : LABEL_MAX_CHARS;
 			var segments = label.split( /<br\s*\/?>/i );
 			var wrapped = segments.map( function ( seg ) {
-				return breakLine( seg.trim(), LABEL_MAX_CHARS );
+				return breakLine( seg.trim(), maxChars );
 			} );
 			return '"' + wrapped.join( '<br/>' ) + '"';
 		} );
@@ -219,6 +236,39 @@
 
 	function prepare( src ) {
 		return wrapLabels( quoteSubgraphTitles( src ) );
+	}
+
+	// Mermaid's default typography (16px, trebuchet ms) is larger than the
+	// skin's content font, which inflates every node and the whole diagram.
+	// Layout is computed from text metrics at render time, so the font must
+	// be fed to initialize() — CSS on the output SVG would only shrink the
+	// text and leave oversized boxes behind it.
+	function pageFont() {
+		var source = document.querySelector( '#mw-content-text' ) || document.body;
+		var style = source && window.getComputedStyle ? window.getComputedStyle( source ) : null;
+
+		return {
+			size: style && style.fontSize ? style.fontSize : '14px',
+			family: style && style.fontFamily ? style.fontFamily : 'sans-serif'
+		};
+	}
+
+	function initMermaid( m, theme ) {
+		var font = pageFont();
+
+		m.initialize( {
+			startOnLoad: false,
+			securityLevel: 'strict',
+			theme: theme,
+			fontFamily: font.family,
+			themeVariables: {
+				fontSize: font.size,
+				fontFamily: font.family
+			},
+			flowchart: {
+				wrappingWidth: WRAP_WIDTH_PX
+			}
+		} );
 	}
 
 	function isDark() {
@@ -492,11 +542,7 @@
 		hideErr( s );
 
 		if ( initTheme !== theme ) {
-			m.initialize( {
-				startOnLoad: false,
-				securityLevel: 'strict',
-				theme: theme
-			} );
+			initMermaid( m, theme );
 			initTheme = theme;
 		}
 
@@ -762,11 +808,7 @@
 				var theme = isDark() ? 'dark' : 'default';
 
 				if ( initTheme !== theme ) {
-					m.initialize( {
-						startOnLoad: false,
-						securityLevel: 'strict',
-						theme: theme
-					} );
+					initMermaid( m, theme );
 					initTheme = theme;
 				}
 
